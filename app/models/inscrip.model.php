@@ -4,15 +4,13 @@ class InscripModel
 {
     private $db;
 
-    function __construct()
-    {
+    function __construct() {
         $this->db = new PDO('mysql:host=localhost;dbname=tpe;charset=utf8', 'root', '');
     }
 
     //Obtiene la lista de Inscriptos y la muestra. 
 
-    function mostrar()
-    {
+    function mostrarEquipos() {
         $query = $this->db->prepare('SELECT * FROM  equipos');
         $query->execute();
 
@@ -20,6 +18,15 @@ class InscripModel
         $equipos = $query->fetchAll(PDO::FETCH_OBJ);
 
         return $equipos;
+    }
+    function mostrarEquipo($id) {
+        $query = $this->db->prepare('SELECT * FROM equipos WHERE id_equipos = ?');
+        $query->execute([$id]);
+
+        // equipo es un equipo solo
+        $equipo = $query->fetch(PDO::FETCH_OBJ);
+
+        return $equipo;
     }
 
     // Inserta inscriptos en la base de datos
