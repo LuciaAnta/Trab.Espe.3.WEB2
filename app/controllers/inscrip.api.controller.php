@@ -1,6 +1,6 @@
 <?php
-    require_once 'app/models/inscrip.model.php'
-    require_once 'app/view/api.view.php'
+    require_once 'app/models/inscrip.model.php';
+    require_once 'app/view/api.view.php';
 class InscripApiController {
     private $model;
     private $view;
@@ -9,8 +9,8 @@ class InscripApiController {
         $this->view = new APIView();
     }
 
-    function verInscripto {
-        $inscriptos = $this->model->mostrar();
-        $this->view->response($inscriptos, 200);
+    function verInscripto($params = []) {
+        $equipos = $this->model->mostrar();
+        $this->view->response($equipos, 200);
     }
 }

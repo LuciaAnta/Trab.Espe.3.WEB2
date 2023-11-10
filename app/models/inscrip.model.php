@@ -13,7 +13,7 @@ class InscripModel
 
     function mostrar()
     {
-        $query = $this->db->prepare('SELECT * FROM equipos');
+        $query = $this->db->prepare('SELECT * FROM  equipos');
         $query->execute();
 
         // equipos es un arreglo de Equipos
