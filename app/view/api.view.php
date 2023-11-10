@@ -1,9 +1,11 @@
 <?php
-    class APIView {
-        public function response($data, $status) {
-
-        }
+class APIView
+{
+    public function response($data, $status)
+    {
     }
-        private function _requestStatus($code) {
 
-        }
+    private function _requestStatus($code)
+    {
+    }
+}

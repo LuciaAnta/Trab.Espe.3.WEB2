@@ -1,6 +1,6 @@
 <?php
 require_once 'libs/Router.php';
-require_once 'app/controllers/inscrip.api.controller.php'
+require_once 'app/controllers/inscrip.api.controller.php';
 
 // crea el router
 $router = new Router();
