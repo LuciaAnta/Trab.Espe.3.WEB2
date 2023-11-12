@@ -55,4 +55,29 @@ class InscripModel
         $query = $this->db->prepare('UPDATE equipos SET nombre_del_equipo = ?, id_facultad = ?, deportes = ? WHERE id_equipos = ?');
         $query->execute([$nombre_del_equipo, $id_facultad, $deportes, $id]);
     }
+
+    // En tu modelo (por ejemplo, InscripModel.php)
+function obtenerEquiposOrdenados($orderBy, $orderDir) {
+    // Validar que el campo de orden sea válido para prevenir SQL injection
+    $allowedFields = ['id_equipos', 'nombre_del_equipo', 'id_facultad', 'deportes'];
+    if (!in_array($orderBy, $allowedFields)) {
+        // Puedes decidir si lanzar una excepción, registrar un mensaje de error, o manejarlo de alguna otra manera
+        return [];
+    }
+
+    // Validar que la dirección sea ascendente o descendente
+    if ($orderDir !== 'asc' && $orderDir !== 'desc') {
+        // Puedes decidir cómo manejar esta situación de dirección no válida
+        return [];
+    }
+
+    $query = $this->db->prepare("SELECT * FROM equipos ORDER BY $orderBy $orderDir");
+    $query->execute();
+
+    // Obtener los equipos ordenados
+    $equipos = $query->fetchAll(PDO::FETCH_OBJ);
+
+    return $equipos;
+}
+
 }

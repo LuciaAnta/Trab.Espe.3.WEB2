@@ -11,18 +11,37 @@
         }
 
         function obtenerEquipos($params = []) {
+            // Obtener parámetros de orden y dirección de la solicitud
+            $orderBy = isset($_GET['orderBy']) ? $_GET['orderBy'] : 'id_equipos';
+            $orderDir = isset($_GET['orderDir']) ? $_GET['orderDir'] : 'asc';
+        
+            // Validar que el campo de orden sea válido para prevenir SQL injection
+            $allowedFields = ['id_equipos', 'nombre_del_equipo', 'id_facultad', 'deportes'];
+            if (!in_array($orderBy, $allowedFields)) {
+                $this->view->response("Campo de orden no válido.", 400);
+                return;
+            }
+        
+            // Validar que la dirección sea ascendente o descendente
+            if ($orderDir !== 'asc' && $orderDir !== 'desc') {
+                $this->view->response("Dirección de orden no válida. Use 'asc' o 'desc'.", 400);
+                return;
+            }
+        
             if (empty($params)) {
-            $equipos = $this->model->mostrarEquipos();
-            $this->view->response($equipos, 200);
+                // Obtener la lista de equipos ordenada
+                $equipos = $this->model->obtenerEquiposOrdenados($orderBy, $orderDir);
+                $this->view->response($equipos, 200);
             } else {
-               $equipo = $this->model->mostrarEquipo($params[':ID']);
-                if(!empty($equipo)) {
+                $equipo = $this->model->mostrarEquipo($params[':ID']);
+                if (!empty($equipo)) {
                     $this->view->response($equipo, 200);
                 } else {
-                    $this->view->response(['msg' => 'El equipo con el id=' .$params[':ID'].' no existe'], 404);
+                    $this->view->response(['msg' => 'El equipo con el id=' . $params[':ID'] . ' no existe'], 404);
                 }
             }
         }
+        
 
         function borrarEquipo($params = []) {
             $id = $params[':ID'];
@@ -38,6 +57,11 @@
 
         function crearEquipo($params = []) {
             $body = $this->getData();
+
+            if (empty($_POST['nombre_del_equipo']) || empty($_POST['id_facultad']) || empty($_POST['deportes'])) {
+                $this->view->response("Datos incompletos. Se requieren nombre_del_equipo, id_facultad y deportes.", 400);
+                return;
+            }
 
             $nombre_del_equipo = $body->nombre_del_equipo;
             $id_facultad = $body->id_facultad;
