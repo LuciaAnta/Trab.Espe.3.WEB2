@@ -5,9 +5,12 @@
     // instancia el router
     $router = new router();
 
-    // arma la tabla de ruteo
-    $router->addRoute("equipos", "GET", "InscripApiController", "verEquipos");
-    $router->addRoute("equipos/:ID", "GET", "InscripApiController", "verEquipos");
+    //tabla de ruteo
+    $router->addRoute("equipos", "GET", "InscripApiController", "obtenerEquipos");
+    $router->addRoute("equipos", "POST", "InscripApiController", "crearEquipo");
+    $router->addRoute("equipos/:ID", "GET", "InscripApiController", "obtenerEquipos");
+    $router->addRoute("equipos/:ID", "PUT", "InscripApiController", "modificarEquipo");
+    $router->addRoute("equipos/:ID", "DELETE", "InscripApiController", "borrarEquipo");
 
     // rutea
     $router->route($_GET["resource"], $_SERVER['REQUEST_METHOD']);

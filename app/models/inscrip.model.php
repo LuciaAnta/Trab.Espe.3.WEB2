@@ -30,7 +30,7 @@ class InscripModel
     }
 
     // Inserta inscriptos en la base de datos
-    function insertarInscripto($nombre_del_equipo, $facultad, $deporte)
+    function insertarEquipo($nombre_del_equipo, $facultad, $deporte)
     {
         $query = $this->db->prepare('INSERT INTO equipos(`nombre_del_equipo`, `id_facultad`, `deportes`) VALUES (?,?,?)');
         $query->execute([$nombre_del_equipo, $facultad, $deporte]);
@@ -40,7 +40,7 @@ class InscripModel
     }
 
     /* Elimina inscripto segun su ID */
-    function eliminarInscripto($id)
+    function eliminarEquipo($id)
     {
         $query = $this->db->prepare('DELETE FROM equipos WHERE id_equipos = ?');
         $query->execute([$id]);
@@ -50,5 +50,9 @@ class InscripModel
     {
         $query = $this->db->prepare('UPDATE equipos SET finalizada = 1 WHERE id_equipos = ?');
         $query->execute([$id]);
+    }
+    function updateInscriptoData($id, $nombre_del_equipo, $id_facultad, $deportes) {
+        $query = $this->db->prepare('UPDATE equipos SET nombre_del_equipo = ?, id_facultad = ?, deportes = ? WHERE id_equipos = ?');
+        $query->execute([$nombre_del_equipo, $id_facultad, $deportes, $id]);
     }
 }
