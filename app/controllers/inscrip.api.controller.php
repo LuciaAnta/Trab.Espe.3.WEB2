@@ -11,19 +11,11 @@
         }
 
         function obtenerEquipos($params = []) {
-            // Obtener parámetros de orden y dirección de la solicitud
-            $orderBy = isset($_GET['orderBy']) ? $_GET['orderBy'] : 'id_equipos';
-            $orderDir = isset($_GET['orderDir']) ? $_GET['orderDir'] : 'asc';
-
-            // Validar que la dirección sea ascendente o descendente
-            if ($orderDir !== 'asc' && $orderDir !== 'desc') {
-                $this->view->response("Dirección de orden no válida. Use 'asc' o 'desc'.", 400);
-                return;
-            }
-        
+            $campoOrden = isset($_GET['sort']) ? $_GET['sort'] : null;
+            $direccionOrden = isset($_GET['order']) ? $_GET['order'] : null;
+    
             if (empty($params)) {
-                // Obtener la lista de equipos ordenada
-                $equipos = $this->model->obtenerEquiposOrdenados($orderBy, $orderDir);
+                $equipos = $this->model->mostrarEquipos($campoOrden, $direccionOrden);
                 $this->view->response($equipos, 200);
             } else {
                 $equipo = $this->model->mostrarEquipo($params[':ID']);
@@ -50,18 +42,18 @@
 
         function crearEquipo($params = []) {
             $body = $this->getData();
-
-            if (empty($_POST['nombre_del_equipo']) || empty($_POST['id_facultad']) || empty($_POST['deportes'])) {
+        
+            if (empty($body->nombre_del_equipo) || empty($body->id_facultad) || empty($body->deportes)) {
                 $this->view->response("Datos incompletos. Se requieren nombre_del_equipo, id_facultad y deportes.", 400);
                 return;
             }
-
+        
             $nombre_del_equipo = $body->nombre_del_equipo;
             $id_facultad = $body->id_facultad;
             $deportes = $body->deportes;
-
+        
             $id = $this->model->insertarEquipo($nombre_del_equipo, $id_facultad, $deportes);
-
+        
             $this->view->response("El equipo fue insertado con el id=".$id, 201);
         }
         
