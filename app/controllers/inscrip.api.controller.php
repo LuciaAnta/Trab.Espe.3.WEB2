@@ -14,14 +14,7 @@
             // Obtener parámetros de orden y dirección de la solicitud
             $orderBy = isset($_GET['orderBy']) ? $_GET['orderBy'] : 'id_equipos';
             $orderDir = isset($_GET['orderDir']) ? $_GET['orderDir'] : 'asc';
-        
-            // Validar que el campo de orden sea válido para prevenir SQL injection
-            $allowedFields = ['id_equipos', 'nombre_del_equipo', 'id_facultad', 'deportes'];
-            if (!in_array($orderBy, $allowedFields)) {
-                $this->view->response("Campo de orden no válido.", 400);
-                return;
-            }
-        
+
             // Validar que la dirección sea ascendente o descendente
             if ($orderDir !== 'asc' && $orderDir !== 'desc') {
                 $this->view->response("Dirección de orden no válida. Use 'asc' o 'desc'.", 400);
