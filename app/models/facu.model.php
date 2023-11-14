@@ -29,13 +29,11 @@ class FacuModel
         $query = $this->db->prepare('SELECT * FROM facultades WHERE id_facultades = ?');
         $query->execute([$id]);
 
-        // equipo es un equipo solo
         $facultad = $query->fetch(PDO::FETCH_OBJ);
 
         return $facultad;
     }
 
-    // Inserta equipos en la base de datos
     function insertarFacu($nombre_facultad, $descripcion, $fundacion)
     {
         $query = $this->db->prepare('INSERT INTO facultades(`nombre_facultad`, `descripcion`, `fundacion`) VALUES (?,?,?)');
@@ -45,13 +43,12 @@ class FacuModel
         return $this->db->lastInsertId();
     }
 
-    /* Elimina equipo segun su ID */
     function eliminarFacu($id)
     {
         $query = $this->db->prepare('DELETE FROM facultades WHERE id_facultades = ?');
         $query->execute([$id]);
     }
-    /* Modifica un equipo dado su ID*/
+
     function updateFacu($id)
     {
         $query = $this->db->prepare('UPDATE facultades SET finalizada = 1 WHERE id_facultad = ?');
